@@ -1,0 +1,13 @@
+# IDE specific directories
+cmake-build-debug
+.idea
+.vscode
+CMakePresets.json
+
+# project specific directories
+build
+scratch
+
+# globals
+out
+*.exe
