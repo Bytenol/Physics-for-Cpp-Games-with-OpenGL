@@ -1,6 +1,8 @@
 #include <iostream>
 
 #include <SDL.h>
+#include "../include/phy/Ball.h"
+
 
 
 int main() {
@@ -16,12 +18,28 @@ int main() {
         return -1;
     }
 
+    auto renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+    if(!renderer) {
+        std::cerr << "SDL renderer failed to be created" << std::endl;
+        return -1;
+    }
+
+    phy::Ball ball;
+    ball.pos.x = 200;
+    ball.pos.y = 200;
+
     SDL_Event evt;
     bool shouldClose = false;
     while (!shouldClose)
     {
         SDL_PollEvent(&evt);
         if(evt.type == SDL_QUIT) shouldClose = true;
+        SDL_SetRenderDrawColor(renderer, 0xff, 0xff, 0xff, 0xff);
+        SDL_RenderClear(renderer);
+        
+        ball.render(renderer);
+
+        SDL_RenderPresent(renderer);
     }
     
 
