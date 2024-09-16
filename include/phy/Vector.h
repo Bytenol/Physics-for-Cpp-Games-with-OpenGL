@@ -20,7 +20,6 @@ namespace phy {
         Vector2 operator*(const float& s) const;
         Vector2& operator*=(const float& s);
 
-        Vector2 negate() const;
         Vector2& normalize();
 
         float getLength() const;
@@ -28,6 +27,8 @@ namespace phy {
         float dotProduct(const Vector2& v) const;
 
         float angleBetween(const Vector2& v) const;
+
+        float projection(const Vector2& v) const;
     };
 
     inline Vector2 Vector2::operator+(const Vector2& v) const 
@@ -65,11 +66,6 @@ namespace phy {
         y *= s;
         return *this;
     }
-    
-    inline Vector2 Vector2::negate() const
-    {
-        return { -x, -y };
-    }
 
     inline Vector2& Vector2::normalize()
     {
@@ -98,6 +94,14 @@ namespace phy {
     {
         auto ab = dotProduct(v);
         return std::acos(ab / (getLength() * v.getLength()));
+    }
+
+    inline float Vector2::projection(const Vector2& v) const {
+        const float l1 = getLength();
+        const float l2 = v.getLength();
+        if(l1 == 0.0f || l2 == 0.0f)
+            return 0.0f;
+        return dotProduct(v) / l2;
     }
 }
 

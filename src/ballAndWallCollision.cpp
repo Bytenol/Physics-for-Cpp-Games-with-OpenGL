@@ -1,3 +1,9 @@
+/**
+ * @todo Implement tunneling correction
+ * @todo Implement velocity correction
+ * @todo Implement edges collision resolution
+ */
+
 #include <iostream>
 #include <cassert>
 #include <vector>
