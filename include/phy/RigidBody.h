@@ -19,7 +19,7 @@ namespace phy
             float mass = 1.0f;
             float im = 1.0f;    // moment of inertia
             float angVel = 0.0f;    // angular velocity
-            float rotation = 0.0f;
+            
             bool isFilled = true;   
             Vector2 pos;
             Vector2 vel;
@@ -29,6 +29,10 @@ namespace phy
 
             explicit RigidBody(const vertices_t& v);
             void setRotation(float angle);
+            float getRotation() const;
+
+        private:
+            float rotation = 0.0f;
     };
 
 
@@ -44,6 +48,11 @@ namespace phy
             vertices[i] = vertices[i].rotate(angle);
         }
         rotation = angle;
+    }
+
+    inline float RigidBody::getRotation() const
+    {
+        return rotation;
     }
 
 } // namespace phy
