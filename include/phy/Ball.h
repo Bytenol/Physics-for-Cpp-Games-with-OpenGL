@@ -26,7 +26,6 @@ namespace phy {
             void drawStroked(SDL_Renderer* renderer);
     };
 
-    // Adapted from: https://stackoverflow.com/questions/38334081/how-to-draw-circles-arcs-and-vector-graphics-in-sdl
     void Ball::render(SDL_Renderer* r) {
         setColor(r);
         if(isStroked) drawStroked(r);

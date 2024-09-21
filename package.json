@@ -1,0 +1,23 @@
+{
+  "name": "physics-for-cpp-games-with-opengl-main",
+  "version": "1.0.0",
+  "description": "1. Ball Moving",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Bytenol/Physics-for-Cpp-Games-with-OpenGL.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Bytenol/Physics-for-Cpp-Games-with-OpenGL/issues"
+  },
+  "homepage": "https://github.com/Bytenol/Physics-for-Cpp-Games-with-OpenGL#readme",
+  "dependencies": {
+    "nodemon": "^3.1.7",
+    "vite": "^5.4.7"
+  }
+}

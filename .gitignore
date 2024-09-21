@@ -7,6 +7,8 @@ CMakePresets.json
 # project specific directories
 build
 scratch
+ems_build
+node_modules
 
 # globals
 out

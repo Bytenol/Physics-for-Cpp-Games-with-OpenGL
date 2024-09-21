@@ -22,6 +22,9 @@ namespace phy {
 
         Vector2& normalize();
 
+        Vector2 rotate(float angle);
+        Vector2 copy();
+
         float getLength() const;
 
         float dotProduct(const Vector2& v) const;
@@ -78,6 +81,17 @@ namespace phy {
         x /= l;
         y /= l;
         return *this;
+    }
+
+    inline Vector2 Vector2::rotate(float angle)
+    {
+        return Vector2(x * std::cos(angle) - y * std::sin(angle), 
+            x * std::sin(angle) + y * std::cos(angle));
+    }
+
+    inline Vector2 Vector2::copy()
+    {
+        return Vector2(x, y);
     }
 
     inline float Vector2::getLength() const
