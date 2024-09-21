@@ -1,0 +1,10 @@
+{
+    "watch": ["./src"],           
+    "ext": "cpp,json",
+    "ignore": ["src/ems"],    
+    "exec": "cd ems_build && emcmake cmake ../ && emmake make", 
+    "env": {
+      "NODE_ENV": "development" 
+    },
+    "verbose": true             
+  }
