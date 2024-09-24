@@ -15,24 +15,23 @@ namespace phy
     class RigidBody
     {
         public:
-            unsigned int color = 0xff0000;
             float mass = 1.0f;
-            float im = 1.0f;    // moment of inertia
+            float im = 5000.0f;    // moment of inertia
             float angVel = 0.0f;    // angular velocity
+            float rotation = 0.0f;
             
-            bool isFilled = true;   
             Vector2 pos;
             Vector2 vel;
             vertices_t vertices;
 
+            struct color { 
+                unsigned short r = 255;
+                unsigned short g = 0;
+                unsigned short b = 0;
+            } color;
+
             RigidBody() = default;
-
             explicit RigidBody(const vertices_t& v);
-            void setRotation(float angle);
-            float getRotation() const;
-
-        private:
-            float rotation = 0.0f;
     };
 
 
@@ -40,19 +39,6 @@ namespace phy
     {
         vertices.clear();
         vertices.insert(vertices.end(), v.begin(), v.end());
-    }
-
-    inline void RigidBody::setRotation(float angle)
-    {
-        for(int i = 0; i < vertices.size(); i++) {
-            vertices[i] = vertices[i].rotate(angle);
-        }
-        rotation = angle;
-    }
-
-    inline float RigidBody::getRotation() const
-    {
-        return rotation;
     }
 
 } // namespace phy

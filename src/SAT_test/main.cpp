@@ -36,8 +36,10 @@ struct Polygon
         unsigned int b = 255;
     } color;
 
-    float rotation = 0.0f;
     Vector2 pos;
+    Vector2 vel;
+    float rotation = 0.0f;
+    float radius = 0.0f;
 
     // original vertex data without any transformation
     std::vector<Vector2> vertices;  
@@ -73,15 +75,15 @@ void update(float dt, Canvas& cnv);
 
 
 /// @brief Carry out seperating axis theorem algorithms on polygons
-/// @param renderer SDL2 rendering context for debug drawing
 /// @param polygon The polygon to check 
 /// @param polygon2 The potential polygon it will collide with
 /// @return true if there is any collision
-bool sat_collision(SDL_Renderer* renderer, Polygon& polygon, Polygon& polygon2);
+bool sat_collision(Polygon& polygon, Polygon& polygon2);
 
 decltype(std::chrono::high_resolution_clock::now()) lastTime; 
 
 std::vector<Polygon> polygons;
+int W, H;
 
 
 // The functions inside this block are exported
@@ -124,6 +126,7 @@ void makePolygon(int amount)
 
         float radius = randRange(5, 50);
 
+        // polar coordinates
         std::vector<Vector2> vertices;
         for(int j = 0; j < 360; j += step)
         {
@@ -132,8 +135,13 @@ void makePolygon(int amount)
         }
 
         Polygon polygon{ vertices };
-        polygon.pos.x = randRange(0, canvas.w);
-        polygon.pos.y = randRange(0, canvas.h);
+        polygon.radius = radius;
+        polygon.pos.x = randRange(radius * 1.4, canvas.w - radius * 1.4);
+        polygon.pos.y = randRange(radius * 1.4, canvas.h - radius * 1.4);
+
+        float vAng = randRange(0, 360) * 3.14159f / 180;
+        polygon.vel = Vector2(std::cos(vAng) * radius, std::sin(vAng) * 3);
+
         polygons.push_back(polygon);
     }
 }
@@ -142,31 +150,10 @@ void makePolygon(int amount)
 
 void init(Canvas& cnv)
 {
-    
-
-    Polygon p1 { 
-        { {-50.0f, -25.0f},
-        {50.0f, -25.0f},
-        {50.0f, 20.0f},
-        {-50.0f, 20.0f},}
-    };
-
-    p1.pos.x = 300;
-    p1.pos.y = 300;
-    polygons.push_back(p1);
-
-    p1  = { 
-        { 
-            {0.0f, -50.0f},
-            {50.0f, 50.0f},
-            {-50.0f, 50.0f}
-        }
-    };
-    p1.color.b = 0;
-    p1.pos.x = 0;
-    p1.pos.y = 0;
-    polygons.push_back(p1);
-
+    makePolygon(25);
+    polygons[1].vel = Vector2(0, 0);    // mouse polygon
+    int isFullScreen;
+    emscripten_get_canvas_size(&W, &H, &isFullScreen);
     lastTime = std::chrono::high_resolution_clock::now();
 }
 
@@ -176,24 +163,42 @@ void update(float dt, Canvas& cnv)
     // transform the whole polygon
     for(auto& polygon: polygons)
     {
+        polygon.pos += polygon.vel * dt;
         for(int i = 0; i < polygon.vertices.size(); i++)
-        {
             polygon.transformed[i] = polygon.pos + polygon.vertices[i].rotate(polygon.rotation);
-        }
     }
 
     for(auto polygon = polygons.begin(); polygon != polygons.end(); polygon++)
     {
-        for(auto polygon2 = polygon + 1; polygon2 != polygons.end(); polygon2++)
-        {
-            sat_collision(cnv.renderer, *polygon, *polygon2);
+        polygon->color.b = 255;
+
+        // wall boundary check
+        if(polygon->pos.x - polygon->radius <= 0) {
+            polygon->pos.x = polygon->radius;
+            polygon->vel.x *= -1;
+        } else if(polygon->pos.x + polygon->radius >= W) {
+            polygon->pos.x = W - polygon->radius;
+            polygon->vel.x *= -1;
         }
+
+        if(polygon->pos.y - polygon->radius <= 0) {
+            polygon->pos.y = polygon->radius;
+            polygon->vel.y *= -1;
+        } else if(polygon->pos.y + polygon->radius >= H) {
+            polygon->pos.y = H - polygon->radius;
+            polygon->vel.y *= -1;
+        }
+
+        // check for sat collision
+        for(auto polygon2 = polygon + 1; polygon2 != polygons.end(); polygon2++)
+            if(sat_collision(*polygon, *polygon2))
+                polygon->color.b = 0;
     }
 
 }
 
 
-bool sat_collision(SDL_Renderer* renderer, Polygon& polygon, Polygon& polygon2)
+bool sat_collision(Polygon& polygon, Polygon& polygon2)
 {
     Polygon* poly1 = &polygon;
     Polygon* poly2 = &polygon2;
@@ -234,8 +239,6 @@ bool sat_collision(SDL_Renderer* renderer, Polygon& polygon, Polygon& polygon2)
                 return false;
         }
     }
-
-    std::cout << "Collision" << std::endl;
 
     return true;
 }
