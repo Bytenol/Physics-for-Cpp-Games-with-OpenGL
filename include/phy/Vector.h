@@ -83,15 +83,16 @@ namespace phy {
         return *this;
     }
 
-    inline Vector2 Vector2::rotate(float angle)
+    inline Vector2 Vector2::rotate(float a)
     {
-        return Vector2(x * std::cos(angle) - y * std::sin(angle), 
-            x * std::sin(angle) + y * std::cos(angle));
+        float angle = a * 3.1415f / 180;
+        return {x * std::cos(angle) - y * std::sin(angle), 
+            x * std::sin(angle) + y * std::cos(angle)};
     }
 
     inline Vector2 Vector2::copy()
     {
-        return Vector2(x, y);
+        return {x, y};
     }
 
     inline float Vector2::getLength() const

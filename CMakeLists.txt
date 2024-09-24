@@ -12,4 +12,5 @@ endif()
 
 include_directories(include)
 
-add_subdirectory(src/rigidBodyTest)
+# add_subdirectory(src/rigidBodyTest)
+add_subdirectory(src/SAT_test)
