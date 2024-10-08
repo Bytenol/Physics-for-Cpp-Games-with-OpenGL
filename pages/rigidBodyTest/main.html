@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Emscripten-Generated Code</title>
+    <title>RigidBody Bouncing</title>
     <style>
     body {
       margin: 0;
@@ -16,6 +16,7 @@
     #output {
       width: 100%;
       background-color: rgba(0, 0, 0, 0.5);
+      color: #fff;
       position: relative;
       top: -100%;
     }
@@ -23,12 +24,20 @@
   </head>
   <body>
     <div class="emscripten_border">
-      <canvas class="emscripten" id="canvas"></canvas>
+      <canvas class="emscripten" id="canvas" ></canvas>
     </div>
     <textarea id="output" rows="8">Data</textarea>
 
     <script type='text/javascript'>
       var Module = {
+        onRuntimeInitialized () {
+          Module.ccall("setSize", null, ["number", "number"], [window.innerWidth, window.innerHeight]);
+          try {
+            Module.ccall("rigidBounce_main", "number", [], []);
+          } catch(e) {
+            // console.error("");
+          }
+        },
         print: (function() {
           var element = document.getElementById('output');
           if (element) element.value = ''; // clear browser cache
@@ -59,13 +68,6 @@
         })(),
       };
     </script>
-    <script async type="text/javascript" src="main.js"></script>
-    <script>
-      onload = () => {
-        const canvas = document.getElementById('canvas');
-        canvas.width = innerWidth;
-        canvas.height = innerHeight;
-      }
-    </script>
+    <script async type="text/javascript" src="./main.js"></script>
   </body>
 </html>

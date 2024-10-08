@@ -20,9 +20,14 @@ namespace phy {
         Vector2 operator*(const float& s) const;
         Vector2& operator*=(const float& s);
 
+        float operator*(const Vector2 &v) const;
+
         Vector2& normalize();
 
         Vector2 rotate(float angle);
+
+        Vector2 perp(float u = 1.0f, bool shouldFlip = false);
+
         Vector2 copy();
 
         float getLength() const;
@@ -83,11 +88,18 @@ namespace phy {
         return *this;
     }
 
-    inline Vector2 Vector2::rotate(float a)
+    inline Vector2 Vector2::rotate(float angle)
     {
-        float angle = a * 3.1415f / 180;
         return {x * std::cos(angle) - y * std::sin(angle), 
             x * std::sin(angle) + y * std::cos(angle)};
+    }
+
+
+    inline Vector2 Vector2::perp(float u, bool shouldFlip)
+    {
+        auto n = Vector2{ y, -x }.normalize() * u;
+        if(shouldFlip) n *= -1;
+        return n;
     }
 
     inline Vector2 Vector2::copy()
@@ -103,6 +115,11 @@ namespace phy {
     inline float Vector2::dotProduct(const Vector2 &v) const
     {
         return x * v.x + y * v.y;
+    }
+
+    inline float Vector2::operator*(const Vector2 &v) const 
+    {
+        return x * v.y - y * v.x;
     }
 
     inline float Vector2::angleBetween(const Vector2 &v) const

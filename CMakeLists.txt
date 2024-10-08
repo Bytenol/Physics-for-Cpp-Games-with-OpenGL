@@ -12,5 +12,39 @@ endif()
 
 include_directories(include)
 
-# add_subdirectory(src/rigidBodyTest)
-add_subdirectory(src/SAT_test)
+add_subdirectory(deps/SDL-release-2.30.7)
+
+add_executable(rigidBodyBounce src/rigidBody_Bounce.cpp)
+target_link_libraries(rigidBodyBounce SDL2main SDL2-static)
+
+add_executable(rigidBodyCollision src/rigidBody_Collision.cpp)
+target_link_libraries(rigidBodyCollision SDL2main SDL2-static)
+
+add_executable(SAT_test src/SAT_test.cpp)
+target_link_libraries(SAT_test SDL2main SDL2-static)
+
+add_executable(SAT_resolve src/SAT_resolution.cpp)
+target_link_libraries(SAT_resolve SDL2main SDL2-static)
+
+
+add_executable(particleCollision src/particleCollision.cpp)
+target_link_libraries(particleCollision SDL2main SDL2-static)
+
+add_executable(rollingWheel src/rollingWheel.cpp)
+target_link_libraries(rollingWheel SDL2main SDL2-static)
+
+add_executable(satellite1 src/satellite1.cpp)
+target_link_libraries(satellite1 SDL2main SDL2-static)
+
+add_executable(satellite2 src/satellite2.cpp)
+target_link_libraries(satellite2 SDL2main SDL2-static)
+
+add_executable(pendulum src/pendulum.cpp)
+target_link_libraries(pendulum SDL2main SDL2-static)
+
+
+add_executable(rigidBody src/rigidBody.cpp)
+target_link_libraries(rigidBody SDL2main SDL2-static)
+
+add_executable(inclinedRoll src/inclinedRoll.cpp)
+target_link_libraries(inclinedRoll SDL2main SDL2-static)

@@ -30,6 +30,14 @@
 
     <script type='text/javascript'>
       var Module = {
+        onRuntimeInitialized () {
+          Module.ccall("setSize", null, ["number", "number"], [window.innerWidth, window.innerHeight]);
+          try {
+            Module.ccall("sat_main", "number", [], []);
+          } catch(e) {
+            // console.error("");
+          }
+        },
         print: (function() {
           var element = document.getElementById('output');
           if (element) element.value = ''; // clear browser cache
@@ -61,16 +69,5 @@
       };
     </script>
     <script async type="text/javascript" src="./main.js"></script>
-    <script>
-      onload = () => {
-        Module.ccall("setSize", null, ["number", "number"], [window.innerWidth, window.innerHeight]);
-        try {
-          Module.ccall("sat_main", "number", [], []);
-        } catch(e) {
-          // console.error("");
-        }
-        
-      }
-    </script>
   </body>
 </html>
