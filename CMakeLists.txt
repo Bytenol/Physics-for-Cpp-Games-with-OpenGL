@@ -48,3 +48,15 @@ target_link_libraries(rigidBody SDL2main SDL2-static)
 
 add_executable(inclinedRoll src/inclinedRoll.cpp)
 target_link_libraries(inclinedRoll SDL2main SDL2-static)
+
+add_executable(freeOscillation src/freeOscillation.cpp)
+target_link_libraries(freeOscillation SDL2main SDL2-static)
+
+add_executable(bungeeJump src/bungeeJump.cpp)
+target_link_libraries(bungeeJump SDL2main SDL2-static)
+
+add_executable(coupledOscillation src/coupledOscillation.cpp)
+target_link_libraries(coupledOscillation SDL2main SDL2-static)
+
+add_executable(rope src/rope.cpp)
+target_link_libraries(rope SDL2main SDL2-static)

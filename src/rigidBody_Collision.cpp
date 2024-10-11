@@ -168,7 +168,7 @@ void update(float dt, Canvas& canvas)
 bool pointInPolyCollision(SDL_Renderer* renderer, RigidBody& b1, RigidBody& b2)
 {
     bool isInPath = false;
-
+    
     for(int i = 0; i < b1.vertices.size(); i++) {
         auto vertex1 = b1.pos + b1.vertices[i];
 
